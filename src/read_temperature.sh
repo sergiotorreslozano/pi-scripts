@@ -2,8 +2,8 @@
 
 # Define variables
 LOG_FILE="/home/sergiotorres/work/client.log"
-JAVA_COMMAND="/usr/bin/java -jar /home/sergiotorres/work/ModbusTcpClient.jar"
-TEMPERATURE_FILE="/home/sergiotorres/work/temperature.txt"
+JAVA_COMMAND="/usr/bin/java -jar -Dconfig=config.properties /home/sergiotorres/work/pi-scripts/src/modbus-tcp-client.jar "
+TEMPERATURE_FILE="/home/sergiotorres/work/pi-scripts/src/temperature.txt"
 
 # Function to generate a random temperature
 generate_random_temperature() {
@@ -128,14 +128,13 @@ echo "Integer value: $TEMPERATURE Random temperature: $RANDOM_TEMPERATURE Free m
 echo "Status 80: $RANDOM_80 Status 90: $RANDOM_90 Status 95: $RANDOM_95 " >> "$LOG_FILE"
 
 # Call the Java program with the temperature as a parameter
-/usr/bin/java -jar /home/sergiotorres/work/ModbusTcpClient.jar 40   "$TEMPERATURE" >> "$LOG_FILE" 2>&1
-/usr/bin/java -jar /home/sergiotorres/work/ModbusTcpClient.jar 50  "$RANDOM_TEMPERATURE" >> "$LOG_FILE" 2>&1
-/usr/bin/java -jar /home/sergiotorres/work/ModbusTcpClient.jar 60  "$FREE_MEMORY" >> "$LOG_FILE" 2>&1
-/usr/bin/java -jar /home/sergiotorres/work/ModbusTcpClient.jar 70  "$USED_MEMORY" >> "$LOG_FILE" 2>&1
-/usr/bin/java -jar /home/sergiotorres/work/ModbusTcpClient.jar 80  "$RANDOM_80" >> "$LOG_FILE" 2>&1
-/usr/bin/java -jar /home/sergiotorres/work/ModbusTcpClient.jar 81  "$RANDOM_90" >> "$LOG_FILE" 2>&1
-/usr/bin/java -jar /home/sergiotorres/work/ModbusTcpClient.jar 82  "$RANDOM_95" >> "$LOG_FILE" 2>&1
-
+$JAVA_COMMAND 40   "$TEMPERATURE" >> "$LOG_FILE" 2>&1
+$JAVA_COMMAND 50  "$RANDOM_TEMPERATURE" >> "$LOG_FILE" 2>&1
+$JAVA_COMMAND 60  "$FREE_MEMORY" >> "$LOG_FILE" 2>&1
+$JAVA_COMMAND 70  "$USED_MEMORY" >> "$LOG_FILE" 2>&1
+$JAVA_COMMAND 80  "$RANDOM_80" >> "$LOG_FILE" 2>&1
+$JAVA_COMMAND 81  "$RANDOM_90" >> "$LOG_FILE" 2>&1
+$JAVA_COMMAND 82  "$RANDOM_95" >> "$LOG_FILE" 2>&1
 
 
 # Get current timestamp
