@@ -16,20 +16,22 @@ def read_value(sensor_type):
     else:
         print("Error: Invalid operation")
         return None
+    print(f"{timestamp} Read: {response}")
     return response
 
 
 def send_integer_to_modbus_server(server_address, port, registry, value):
-
+    
+    port = int(port)
     # Create a Modbus TCP client
-    client = ModbusTcpClient(server_address, port)
+    modbus_client = ModbusTcpClient(server_address, "socket", port)
 
     try:
         # Connect to the Modbus server
-        if client.connect():
+        if modbus_client.connect():
             # Send an integer value to a specific Modbus register (address 0 in this example)
             # You can change the register address based on your Modbus server configuration
-            client.write_register(registry, value=value, unit=1)
+            modbus_client.write_register(registry, value=value, slave=1)
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(f"{timestamp} Sent value {value} to Modbus server at {server_address}:{port} in registry {registry}")
         else:
@@ -40,7 +42,7 @@ def send_integer_to_modbus_server(server_address, port, registry, value):
 
     finally:
         # Close the Modbus TCP connection
-        client.close()
+        modbus_client.close()
 
 
 if __name__ == "__main__":
@@ -54,6 +56,6 @@ if __name__ == "__main__":
     sensor_type = sys.argv[4]
     
     result = read_value(sensor_type)
-    send_integer_to_modbus_server(server_address, port, registry, result)
+    send_integer_to_modbus_server(server_address , port, registry, result)
 
 
